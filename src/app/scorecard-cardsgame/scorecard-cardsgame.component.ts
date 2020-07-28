@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 
-import {PlayersInterface} from './players-interface';
+import { PlayersInterface } from './players-interface';
 
 
 @Component({
@@ -18,40 +18,60 @@ export class ScorecardCardsgameComponent implements OnInit {
   public tableHeaders = [];
   public amountPerPerson = 0;
   public refresh: boolean = true;
+  public totalPoints = 100;
+  public settleAmounts: any = [];
   ngOnInit(): void {
-    
+
   }
 
   totalScores(scores?) {
     let mergedArr = [];
-    this.tableData.forEach((element,i) => {
+    this.tableData.forEach((element, i) => {
       mergedArr = mergedArr.concat(element);
     });
     this.tableHeaders.forEach((e, i) => {
       let filteredObj = mergedArr.filter(x => x.name === e);
-      if(filteredObj.length > 1) {
-      this.totals[i] = mergedArr.filter(x => x.name === e).reduce((acc, val) => Number(acc.score)+Number(val.score));
+      if (filteredObj.length > 1) {
+        this.totals[i] = mergedArr.filter(x => x.name === e).reduce((acc, val) => {
+          if (isNaN(Number(val.score))) {
+            val.score = 0;
+          }
+          if (acc && acc.score) {
+            acc = acc.score;
+          }
+          return Number(acc) + Number(val.score)
+        });
       } else {
-        this.totals[i] = filteredObj[0] && filteredObj[0].score ? Number(filteredObj[0].score): 0;
+        this.totals[i] = filteredObj[0] && filteredObj[0].score ? Number(filteredObj[0].score) : 0;
       }
-    })
-    console.log(this.totals);
+    });
+    this.settlingAmounts();
+  }
+
+  settlingAmounts() {
+    let totalFlies = this.totals.filter(e => e >= this.totalPoints);
+    if (totalFlies.length > 0) {
+      this.totals.forEach((element, i) => {
+        this.settleAmounts[i] = element >= this.totalPoints ? -this.amountPerPerson : (this.amountPerPerson*this.numberOfPlayers)/(this.numberOfPlayers-totalFlies.length);
+      });
+    }
+    console.log("check amounts", this.settleAmounts);
   }
 
   triggerModel() {
-    console.log("check", this.numberOfPlayers);
     this.tableHeaders.length = this.numberOfPlayers;
     this.initTableData();
   }
 
   initTableData() {
-    if(!this.tableData[0]) {
-      this.tableData[0] = [];
-    for(let i=0; i<this.numberOfPlayers;i++) {
-      this.tableData[0][i] = {name: '', score: 0};
+    let y = this.tableData.length;
+    if (!this.tableData[y]) {
+      this.tableData[y] = [];
+      for (let i = 0; i < this.numberOfPlayers; i++) {
+        this.tableData[y][i] = { name: this.tableData && this.tableData[y - 1] && this.tableData[y - 1][i] ? this.tableData[y - 1][i].name : '', score: this.totals && this.totals[i] && this.totals[i] > this.totalPoints ? 're-enter on' + Math.max(this.totals) + 1 : 0 };
+      }
     }
-  }
-  console.log(this.tableData);
+    console.log("check updated value", this.tableData);
   }
 
   updateHeaders(value, id) {
@@ -60,9 +80,13 @@ export class ScorecardCardsgameComponent implements OnInit {
       this.tableHeaders[id] = value;
       this.refresh = true;
     });
-    for(let i=0; i<this.tableData.length; i++) {
+    for (let i = 0; i < this.tableData.length; i++) {
       this.tableData[i][id].name = value;
     }
+  }
+
+  addMoreRows() {
+    this.initTableData();
   }
 
 }

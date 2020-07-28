@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LambsTigerComponentComponent } from './lambs-tiger-component/lambs-tiger-component.component';
 import { ScorecardCardsgameComponent } from './scorecard-cardsgame/scorecard-cardsgame.component';
+import { ScoreCardParentComponent } from './score-card-parent/score-card-parent.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LambsTigerComponentComponent,
-    ScorecardCardsgameComponent
+    ScorecardCardsgameComponent,
+    ScoreCardParentComponent
   ],
   imports: [
     BrowserModule,
