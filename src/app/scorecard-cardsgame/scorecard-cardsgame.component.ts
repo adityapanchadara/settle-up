@@ -52,15 +52,17 @@ export class ScorecardCardsgameComponent implements OnInit {
     let totalFlies = this.totals.filter(e => e >= this.totalPoints);
     if (totalFlies.length > 0) {
       this.totals.forEach((element, i) => {
-        this.settleAmounts[i] = element >= this.totalPoints ? -this.amountPerPerson : (this.amountPerPerson*this.numberOfPlayers)/(this.numberOfPlayers-totalFlies.length);
+        this.settleAmounts[i] = element >= this.totalPoints ? -this.amountPerPerson : (this.amountPerPerson * this.numberOfPlayers) / (this.numberOfPlayers - totalFlies.length);
       });
     }
     console.log("check amounts", this.settleAmounts);
   }
 
   triggerModel() {
-    this.tableHeaders.length = this.numberOfPlayers;
-    this.initTableData();
+    if (this.numberOfPlayers > 0) {
+      this.tableHeaders.length = this.numberOfPlayers;
+      this.initTableData();
+    }
   }
 
   initTableData() {
