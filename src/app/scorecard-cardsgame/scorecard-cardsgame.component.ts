@@ -24,8 +24,13 @@ export class ScorecardCardsgameComponent implements OnInit {
 
   }
 
-  totalScores(scores?) {
+  totalScores(i?, z?) {
     let mergedArr = [];
+    if(i && z) {
+      if(this.totals[i] > this.totalPoints) {
+        
+      }
+    }
     this.tableData.forEach((element, i) => {
       mergedArr = mergedArr.concat(element);
     });
@@ -69,8 +74,9 @@ export class ScorecardCardsgameComponent implements OnInit {
     let y = this.tableData.length;
     if (!this.tableData[y]) {
       this.tableData[y] = [];
+      const reEnterOn = Math.max(...this.totals) + 1;
       for (let i = 0; i < this.numberOfPlayers; i++) {
-        this.tableData[y][i] = { name: this.tableData && this.tableData[y - 1] && this.tableData[y - 1][i] ? this.tableData[y - 1][i].name : '', score: this.totals && this.totals[i] && this.totals[i] > this.totalPoints ? 're-enter on' + Math.max(this.totals) + 1 : 0 };
+        this.tableData[y][i] = { name: this.tableData && this.tableData[y - 1] && this.tableData[y - 1][i] ? this.tableData[y - 1][i].name : '', score: this.totals && this.totals[i] && this.totals[i] >= this.totalPoints ? 're-enter on ' + reEnterOn : 0 };
       }
     }
     console.log("check updated value", this.tableData);
