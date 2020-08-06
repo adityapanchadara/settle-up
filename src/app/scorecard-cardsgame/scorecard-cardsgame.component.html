@@ -5,65 +5,72 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
-<div class="container">
-    <div class="container-fluid">
-        <div class="form-group row">
-            <div class="col-md-3">
-                <label class="control-label" for="players">Number of Players</label>
-                <input [(ngModel)]="numberOfPlayers" (ngModelChange)="triggerModel()" class="form-control" id="players"
-                    type="text" placeholder="No. of Players">
-            </div>
-            <div class="col-md-3">
-                <label class="control-label" for="readOnlyInput">Amount per person</label>
-                <input [(ngModel)]="amountPerPerson" class="form-control" id="amount" type="text" placeholder="$$">
-            </div>
-            <div class="col-md-3">
-                <label class="control-label" for="readOnlyInput">Total Points</label>
-                <input [(ngModel)]="totalPoints" class="form-control" id="amount" type="text" placeholder="100">
-            </div>
-            <div class="col-md-3">
-                <label class="control-label" for="readOnlyInput">Total bidding amount</label>
-                <input class="form-control" readonly id="biddingAmt" type="text" placeholder="$$"
-                    [(ngModel)]="numberOfPlayers*amountPerPerson">
-            </div>
+<div class="bg">
+    <div class="container">
+        <div class="container-fluid">
         </div>
     </div>
-    <table class="table">
-        <thead>
-            <tr *ngIf="refresh && tableHeaders.length > 0">
-                <td>Names</td>
-                <th *ngFor="let x of tableHeaders; let i=index">
-                    <ng-container>
-                        <input class="form-control" type="text" placeholder="Player Name{{i}}"
-                            [ngModel]="tableHeaders[i]" (ngModelChange)="updateHeaders($event, i)"
-                            [ngModelOptions]="{updateOn: 'blur', debounce: 500 }">
-                    </ng-container>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let y of tableData; let i=index">
-                <td>{{i+1}}</td>
-                <td *ngFor="let x of y; let z=index">
-                    <ng-container>
-                        <input class="form-control" id="playerNames{{z}}" type="text" placeholder="Score{{i+1}}"
-                            [(ngModel)]="tableData[i][z]['score']" [ngModelOptions]="{updateOn: 'blur'}"
-                            (ngModelChange)="totalScores()">
-                    </ng-container>
-                </td>
-            </tr>
-            <button *ngIf="tableHeaders.length > 0" (click)="addMoreRows()" type="button" class="btn btn-primary">Add</button>
-        </tbody>
-        <tfoot>
-            <tr *ngIf="totals.length > 0">
-                <td>Totals</td>
-                <td *ngFor="let y of totals">{{y}}</td>
-            </tr>
-            <tr *ngIf="settleAmounts.length > 0">
-                <td>Settling Amount</td>
-                <td *ngFor="let y of settleAmounts">{{y}}</td>
-            </tr>
-        </tfoot>
-    </table>
-
 </div>
+    <div class="container">
+        <div class="container-fluid">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="control-label" for="players">Number of Players</label>
+                    <input [(ngModel)]="numberOfPlayers" (ngModelChange)="triggerModel()" class="form-control"
+                        id="players" type="text" placeholder="No. of Players">
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label" for="readOnlyInput">Amount per person</label>
+                    <input [(ngModel)]="amountPerPerson" class="form-control" id="amount" type="text" placeholder="$$">
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label" for="readOnlyInput">Total Points</label>
+                    <input [(ngModel)]="totalPoints" class="form-control" id="amount" type="text" placeholder="100">
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label" for="readOnlyInput">Total bidding amount</label>
+                    <input class="form-control" readonly id="biddingAmt" type="text" placeholder="$$"
+                        [(ngModel)]="numberOfPlayers*amountPerPerson">
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr *ngIf="refresh && tableHeaders.length > 0">
+                    <td>Names</td>
+                    <th *ngFor="let x of tableHeaders; let i=index">
+                        <ng-container>
+                            <input class="form-control" type="text" placeholder="Player Name{{i}}"
+                                [ngModel]="tableHeaders[i]" (ngModelChange)="updateHeaders($event, i)"
+                                [ngModelOptions]="{updateOn: 'blur', debounce: 500 }">
+                        </ng-container>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let y of tableData; let i=index">
+                    <td>{{i+1}}</td>
+                    <td *ngFor="let x of y; let z=index">
+                        <ng-container>
+                            <input class="form-control" id="playerNames{{z}}" type="text" placeholder="Score{{i+1}}"
+                                [(ngModel)]="tableData[i][z]['score']" [ngModelOptions]="{updateOn: 'blur'}"
+                                (ngModelChange)="totalScores()">
+                        </ng-container>
+                    </td>
+                </tr>
+                <button *ngIf="tableHeaders.length > 0" (click)="addMoreRows()" type="button"
+                    class="btn btn-primary">Add</button>
+            </tbody>
+            <tfoot>
+                <tr *ngIf="totals.length > 0">
+                    <td>Totals</td>
+                    <td *ngFor="let y of totals">{{y}}</td>
+                </tr>
+                <tr *ngIf="settleAmounts.length > 0">
+                    <td>Settling Amount</td>
+                    <td *ngFor="let y of settleAmounts">{{y}}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
